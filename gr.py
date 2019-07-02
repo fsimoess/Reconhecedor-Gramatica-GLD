@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os
+
 def openGrammar():
 	file = open('./gr.txt', 'r')
 	text = file.read()
@@ -112,32 +114,35 @@ def recognizeGLD(transitions):
 		return False
 
 def saveAntlr(transitions):
+	listRead = []
 	text = ""
 	hasRead = ""
 	att = False
 
 	for item in transitions:
+		if item[0] in listRead:
+			text = text + ' ' + "\n"
+		elif listRead != []:
+			text = text + ' ' + ';' + "\n"
+
 		for x in item:
 			if x == '>':
 				att = True
 			if not att and x.isupper():
-				text = text + x.lower() + ' ' + ':' + ' '
+				if x not in listRead:
+					text = text + x.lower() + ' ' + ':' + ' '
+					listRead.append(x)
+				else:
+					text = text + '  ' + '|' + ' '
 			if att and x.islower():
 				text = text + '\'' + x + '\'' + ' '
 			if att and x.isupper():
 				text = text + x.lower()
 
-
-		text = text + ' ' + ';' "\n"
 		file.write("%s" % text)
 		text = ""
 		att = False
-
-
-
-
-
-
+	file.write(" ; \n")
 
 text = openGrammar()
 file = open('GLD.g4', 'w+')
@@ -155,3 +160,10 @@ gld = recognizeGLD(transitions)
 
 if gld:
 	saveAntlr(transitions)
+else:
+	exit()
+
+file.close()
+
+myCmd = 'antlr4 -Dlanguage=Python3 GLD.g4'
+os.system(myCmd)
