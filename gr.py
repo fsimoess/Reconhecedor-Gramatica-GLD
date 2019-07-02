@@ -15,8 +15,9 @@ def validateGrammar(grammar):
 	initial = ""
 	aux = ""
 	transitions = []
-	checkState = 0
-	checkChar = 0
+	checkState = []
+	checkChar = []
+	last = False
 
 	for x in grammar:
 		if x == '{' and openBracket == False:
@@ -43,33 +44,114 @@ def validateGrammar(grammar):
 				phase+=1
 
 	#Realizar verificação se states e characters estão em transitions - ARRUMAR
-	for item in transitions:
-		for s1 in states:
-			if s1 in item:
-				checkState+=1
-				break
-		for c1 in characters:
-			if c1 in item:
-				checkChar+=1
-				break
+	numChar = 0
+	numState = 0
 
-	print (checkChar, checkState)
+	for item in transitions:
+		for x in item:
+			if x == '>':
+				last = True
+			if x not in checkState:
+				if last and x.isupper():
+					if x in states:
+						numState+=1
+						checkState.append(x)
+					else:
+						print("A Gramatica não é válida")
+						exit()
+			if x not in checkChar:
+				if last and x.islower():
+					if x in characters:
+						numChar+=1
+						checkChar.append(x)
+					else:
+						print("A Gramatica não é válida")
+						exit()
+		last = False
+
+	if numChar == len(characters) and numState == len(states):
+		print("A Gramatica foi entrada corretamente")		
+
 	return [states, characters, initial, transitions]
 
 def recognizeGLD(transitions):
+	att = False
+	verif = False
+	last = ""
+	count = 0
+
 	for item in transitions:
-		print(item)
+		for x in item:
+			if last == "$":
+				print("A Gramatica não é uma GLD")
+				exit()
+			if x == '>':
+				att = True
+			if att and x.islower():
+				last = x
+			if last.islower() and x.isupper():
+				last = x
+				verif = True
+			if x == "$":
+				last = x
+				verif = True
+			if verif and x.islower():
+				verif = False
+		
+		if verif:
+			count+=1
+		att = False
+		verif = False
+		last = ""
+
+	if count == len(transitions):
+		print("A Gramatica é uma GLD")
+		return True
+	else:
+		print("A Gramatica não é uma GLD")
+		return False
+
+def saveAntlr(transitions):
+	text = ""
+	hasRead = ""
+	att = False
+
+	for item in transitions:
+		for x in item:
+			if x == '>':
+				att = True
+			if not att and x.isupper():
+				text = text + x.lower() + ' ' + ':' + ' '
+			if att and x.islower():
+				text = text + '\'' + x + '\'' + ' '
+			if att and x.isupper():
+				text = text + x.lower()
+
+
+		text = text + ' ' + ';' "\n"
+		file.write("%s" % text)
+		text = ""
+		att = False
+
+
+
+
+
+
 
 text = openGrammar()
 file = open('GLD.g4', 'w+')
-file.write("grammar GLD;\n")
-file.close()
+file.write("grammar GLD;\n\n")
 
 states, characters, initial, transitions = validateGrammar(text)
+print("-----------------------------------------")
 print (states)
 print (characters)
 print (initial)
 print (transitions)
+print("-----------------------------------------")
 
-recognizeGLD(transitions)
+gld = recognizeGLD(transitions)
 
+if gld:
+	saveAntlr(transitions)
