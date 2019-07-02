@@ -1,1 +1,1 @@
-#Reconhecedor de GLD
+# Reconhecedor de GLD
