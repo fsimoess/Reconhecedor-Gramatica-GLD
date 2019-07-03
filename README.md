@@ -9,7 +9,7 @@ G = ({}, {}, S, {})
 ```
 - Depois executa-se o parser de gramáticas:
 ```
-python gr.py gr.txt
+python3 gr.py gr.txt
 ```
 - A partir disso os arquivos antlr são gerados (parser, lexer, etc) com o seguinte comando:
 ```
@@ -19,7 +19,7 @@ Sendo antlr.jar o caminho do JAR de antlr, a linguagem/API escolhida python3 e o
 
 - Aí rodam-se os testes com um arquivo qualquer (exemplo T.py) obtendo funções para uma palavra a ser testada (exemplo a.txt):
 ```
-python T.py a.txt
+python3 T.py a.txt
 ```
 
 **Obs.: Caso o arquivo de gramática TXT for modificado, é necessário refazer todos os passos. Caso o arquivo G4 seja modificado, apenas a partir do passo de compilação do JAR necessita ser refeito.**
