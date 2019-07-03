@@ -2,6 +2,5 @@ grammar GLD;
 
 s : 'a' s 
   | 'b' a ;
-a :
-  EOF
-  | 'c' a;
+a : EOF 
+  | 'c' a ; 
