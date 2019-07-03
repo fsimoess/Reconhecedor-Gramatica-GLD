@@ -17,7 +17,7 @@ java -Xmx500M -cp antlr.jar org.antlr.v4.Tool -Dlanguage=Python3 GLD.g4
 ```
 Sendo antlr.jar o caminho do JAR de antlr, a linguagem/API escolhida python3 e o arquivo de gramáticas GLD.g4
 
-- Aí rodam-se os testes com um arquivo qualquer (exemplo T.py) contendo uma palavra para ser testada (exemplo a.txt):
+- Aí rodam-se os testes com um arquivo qualquer (exemplo T.py) obtendo funções para uma palavra a ser testada (exemplo a.txt):
 ```
 python T.py a.txt
 ```
