@@ -169,3 +169,6 @@ file.close()
 
 myCmd = 'antlr4 -Dlanguage=Python3 GLD.g4'
 os.system(myCmd)
+
+myCmd = 'python3 T.py palavra.txt'
+os.system(myCmd)
