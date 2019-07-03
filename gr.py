@@ -138,8 +138,6 @@ def saveAntlr(transitions):
 				text = text + '\'' + x + '\'' + ' '
 			if att and x.isupper():
 				text = text + x.lower()
-			if x == "$":
-				text = text + 'EOF'
 
 		file.write("%s" % text)
 		text = ""
