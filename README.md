@@ -21,3 +21,5 @@ Sendo antlr.jar o caminho do JAR de antlr, a linguagem/API escolhida python3 e o
 ```
 python T.py a.txt
 ```
+
+**Obs.: Caso o arquivo de gramática TXT for modificado, é necessário refazer todos os passos. Caso o arquivo G4 seja modificado, apenas a partir do passo de compilação do .jar necessita ser refeito.**
